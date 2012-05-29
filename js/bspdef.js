@@ -108,7 +108,7 @@ var RENDER_MODE_ADDITIVE = 5;
 /*
 typedef struct _VECTOR3D
 {
-	float x, y, z;
+  float x, y, z;
 } VECTOR3D;
 */
 // @see mathlib.js Vector3D
@@ -117,8 +117,8 @@ typedef struct _VECTOR3D
 /*
 typedef struct _BSPLUMP
 {
-	int32_t nOffset;
-	int32_t nLength;
+  int32_t nOffset;
+  int32_t nLength;
 } BSPLUMP;
 */
 function BspLump()
@@ -131,8 +131,8 @@ function BspLump()
 /*
 typedef struct _BSPHEADER
 {
-	int32_t nVersion;		
-	BSPLUMP lump[HEADER_LUMPS];
+  int32_t nVersion;    
+  BSPLUMP lump[HEADER_LUMPS];
 } BSPHEADER;
 */
 function BspHeader()
@@ -145,20 +145,20 @@ function BspHeader()
 /*
 typedef struct _BSPNODE
 {
-	uint32_t iPlane;			 
-	int16_t  iChildren[2];		 
-	int16_t  nMins[3], nMaxs[3]; 
-	uint16_t iFirstFace, nFaces;  
+  uint32_t iPlane;       
+  int16_t  iChildren[2];     
+  int16_t  nMins[3], nMaxs[3]; 
+  uint16_t iFirstFace, nFaces;  
 } BSPNODE;
 */
 function BspNode()
 {
     var plane;     // Index into pPlanes lump
     var children;  // If > 0, then indices into Nodes otherwise bitwise inverse indices into Leafs
-	var mins;      // Bounding box
-	var maxs;
-	var firstFace; // Index and count into BSPFACES array
-	var faces;
+  var mins;      // Bounding box
+  var maxs;
+  var firstFace; // Index and count into BSPFACES array
+  var faces;
 };
 var SIZE_OF_BSPNODE = 24;
 
@@ -166,22 +166,22 @@ var SIZE_OF_BSPNODE = 24;
 /*
 typedef struct _BSPLEAF
 {
-	int32_t  nContents;			              
-	int32_t  nVisOffset;		              
-	int16_t  nMins[3], nMaxs[3];             
-	uint16_t iFirstMarkSurface, nMarkSurfaces;
-	uint8_t  nAmbientLevels[4];	        
+  int32_t  nContents;                    
+  int32_t  nVisOffset;                  
+  int16_t  nMins[3], nMaxs[3];             
+  uint16_t iFirstMarkSurface, nMarkSurfaces;
+  uint8_t  nAmbientLevels[4];          
 } BSPLEAF;
 */
 function BspLeaf()
 {
     var content;          // Contents enumeration, see vars
     var visOffset;        // Offset into the compressed visibility lump
-	var mins;             // Bounding box
-	var maxs;
-	var firstMarkSurface; // Index and count into BSPMARKSURFACE array
-	var markSurfaces
-	var ambientLevels;    // Ambient sound levels              
+  var mins;             // Bounding box
+  var maxs;
+  var firstMarkSurface; // Index and count into BSPMARKSURFACE array
+  var markSurfaces
+  var ambientLevels;    // Ambient sound levels              
 };
 var SIZE_OF_BSPLEAF = 28;
 
@@ -195,9 +195,9 @@ var SIZE_OF_BSPMARKSURFACE  = 2;
 /*
 typedef struct _BSPPLANE
 {
-	VECTOR3D vNormal; 
-	float    fDist;  
-	int32_t  nType; 
+  VECTOR3D vNormal; 
+  float    fDist;  
+  int32_t  nType; 
 } BSPPLANE;
 */
 function BspPlane()
@@ -223,7 +223,7 @@ typedef struct _BSPEDGE
 */
 function BspEdge()
 {
-	var vertices; // Indices into vertex array
+  var vertices; // Indices into vertex array
 }
 var SIZE_OF_BSPEDGE = 4;
 
@@ -281,8 +281,8 @@ typedef int32_t BSPMIPTEXOFFSET;
 var SIZE_OF_BSPMIPTEXOFFSET = 4;
 function BspTextureHeader()
 {
-	var textures; // Number of BSPMIPTEX structures
-	var offsets;  // Array of offsets to the textures
+  var textures; // Number of BSPMIPTEX structures
+  var offsets;  // Array of offsets to the textures
 }
 
 // BSPMIPTEX structures which defines a texture
@@ -298,10 +298,10 @@ typedef struct _BSPMIPTEX
 */
 function BspMipTexture()
 {
-	var name;    // Name of texture, for reference from external WAD file
-	var width;   // Extends of the texture
-	var height; 
-	var offsets; // Offsets to MIPLEVELS texture mipmaps, if 0 texture data is stored in an external WAD file
+  var name;    // Name of texture, for reference from external WAD file
+  var width;   // Extends of the texture
+  var height; 
+  var offsets; // Offsets to MIPLEVELS texture mipmaps, if 0 texture data is stored in an external WAD file
 }
 
 // Texinfo lump contains information about how textures are applied to surfaces
@@ -318,12 +318,12 @@ typedef struct _BSPTEXTUREINFO
 */
 function BspTextureInfo()
 {
-	var s;          // 1st row of texture matrix
-	var sShift;     // Texture shift in s direction
-	var t;          // 2nd row of texture matrix - multiply 1st and 2nd by vertex to get texture coordinates
-	var tShift;     // Texture shift in t direction
-	var mipTexture; // Index into mipTextures array
-	var flags;      // Texture flags, seems to always be 0
+  var s;          // 1st row of texture matrix
+  var sShift;     // Texture shift in s direction
+  var t;          // 2nd row of texture matrix - multiply 1st and 2nd by vertex to get texture coordinates
+  var tShift;     // Texture shift in t direction
+  var mipTexture; // Index into mipTextures array
+  var flags;      // Texture flags, seems to always be 0
 }
 var SIZE_OF_BSPTEXTUREINFO = 40;
 
@@ -340,13 +340,13 @@ typedef struct _BSPMODEL
 */
 function BspModel()
 {
-	var mins;      // Defines bounding box
-	var maxs; 
-	var origin;    // Coordinates to move the coordinate system before drawing the model
-	var headNodes; // Indexes into nodes (first into world nodes, remaining into clip nodes)
-	var visLeafs;  // No idea
-	var firstFace; // Index and count into face array
-	var faces;
+  var mins;      // Defines bounding box
+  var maxs; 
+  var origin;    // Coordinates to move the coordinate system before drawing the model
+  var headNodes; // Indexes into nodes (first into world nodes, remaining into clip nodes)
+  var visLeafs;  // No idea
+  var firstFace; // Index and count into face array
+  var faces;
 }
 var SIZE_OF_BSPMODEL = 64;
 
@@ -360,7 +360,7 @@ typedef struct _BSPCLIPNODE
 */
 function BspClipNode()
 {
-	var plane;    // Index into planes
-	var children; // negative numbers are contents behind and in front of the plane
+  var plane;    // Index into planes
+  var children; // negative numbers are contents behind and in front of the plane
 }
 var SIZE_OF_BSPCLIPNODE = 8;

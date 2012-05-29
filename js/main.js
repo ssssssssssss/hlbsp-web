@@ -375,17 +375,28 @@ function setStates()
 	gl.enable(gl.CULL_FACE);
 }
 
-function resize()
+function __resize__(width, height)
 {
-	var width = canvas.clientWidth;
-	var height = canvas.clientHeight;
-	
 	log('Resizing to ' + width + ' x ' + height);
 
 	projectionMatrix.perspective(60.0, width / height, 8.0, 6000.0);
 	gl.viewport(0, 0, width, height);
 	
 	projectionMatrix.setUniform(gl, projectionMatrixLocation, false);
+}
+
+function resize()
+{
+	var width = canvas.clientWidth;
+	var height = canvas.clientHeight;
+	__resize__(width, height);
+}
+
+function resizeToFullScreen()
+{
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	__resize__(width, height);
 }
 
 /**
@@ -439,6 +450,7 @@ var lastFpsUpdate = 0;
 function mainloop()
 {
 	// Calculate time since the last frame
+  window.requestAnimationFrame(mainloop);
 	var time = new Date().getTime();
 	var interval = time - lastTime;
 	
@@ -462,7 +474,7 @@ function mainloop()
 	render();
 	
 	// Start next frame
-	setTimeout(mainloop, 0);
+	//setTimeout(mainloop, 0);
 }
 
 function main()
